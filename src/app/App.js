@@ -15,7 +15,7 @@ const App = () => {
       }
   }
   return (
-    <div>
+    <div className={'gj'}>
       <input value={search} onChange={handlerChangeSearch}/>
     </div>
   );
