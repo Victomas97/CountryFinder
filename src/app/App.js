@@ -1,40 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './App.css';
 import {getContries} from "./services/countryService";
+import MapComponent from "./components/MapComponent";
 
 const App = () => {
   const [search, setSearch] = useState('');
-  const [countries, setCountries] = useState([]);
+  const [country, setCountry] = useState(null);
 
   const handlerChangeSearch = (e) => {
-      setSearch(e.target.value);
-      if(e.target.value.replaceAll(' ', '')) {
-          getContries(e.target.value)
-              .then((countries) => {
-                setCountries(countries);
-                console.log(countries)
-              });
-      }
-      else {
-          setCountries([]);
-      }
+      setSearch(e);
   }
+
+  useEffect(() => {
+    if(search.replaceAll(' ', '')) {
+      getContries(search)
+        .then((countries) => {
+          setCountry(countries ? countries[0] : null);
+        });
+    }
+    else {
+      setCountry(null);
+    }
+  });
+
+
   return (
-      <>
-          <div className={'gj'}>
-              <input value={search} onChange={handlerChangeSearch}/>
-          </div>
-          { countries.length > 0 ?
-              countries.map((value, index) => (
-                  <>
-                      <p> {value.name + ' - ' + value.capital} </p>
-                      <img src={value.flag} alt={'flag'} width={'250px'} />
-                  </>
-              ))
-              :
-              <> No hay datos que mostrar</>
+      <div className={'grid-container'}>
+        <div className={'map'}>
+          <MapComponent onCountryChange={handlerChangeSearch}/>
+        </div>
+        <div className={'country'}>
+          {
+             country ?
+              <div>
+                <p> {country?.name + ' - ' + country?.capital} </p>
+                <img src={country?.flag} alt={'flag'} width={'250px'} />
+              </div>
+               :
+               null
           }
-      </>
+
+        </div>
+      </div>
   );
 }
 

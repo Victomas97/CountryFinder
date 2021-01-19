@@ -1,0 +1,9 @@
+.map { grid-area: map; }
+
+.country { grid-area: country; }
+
+.grid-container {
+    display: grid;
+    grid-template-areas: 'map map map country';
+    grid-gap: 30px;
+}
