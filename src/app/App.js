@@ -35,6 +35,7 @@ const App = () => {
               <div>
                 <p> {country?.name + ' - ' + country?.capital} </p>
                 <img src={country?.flag} alt={'flag'} width={'250px'} />
+                <p> {country?.region + ' - ' + country?.population} </p>
               </div>
                :
                null
